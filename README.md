@@ -15,83 +15,40 @@ It is based on https://github.com/rockybeachradio/x400-software-pack \
 
 # Backlog:
 
-## To check Eryone Stuff:
-- [ ] at24c_eeprom by Eryone
-- [ ] farm3d by Eryone
-- [ ] Scripts by Eryone
-- [ ] KlipperScreen panels by Eryone
-
 ## ToDo
 - [ ] Remove "duplicate_pin_override" in chamber_temp_mgmt.cfg --> Software solution, or another temperature sensor
-
-
-## Check why eryone has spezial versions and is not using the original ones. (commands found in relink_conf.sh)
-- [ ] cp /home/mks/KlipperScreen/moonraker/moonraker/components/machine.py /home/mks/moonraker/moonraker/components/       - Check what is different in the Eryone version
-- [ ] cp /home/mks/KlipperScreen/config/timelapse.cfg  /home/mks/moonraker-timelapse/klipper_macro/                        - Check what is different in the Eryone version
-~~- [ ] cp  /home/mks/KlipperScreen/klipper/ /home/mks/  -rf~~
-- [ ] How is KlipperScreen calling eryone scripts? Where are the scripts used?
-    - ln -s /home/mks/KlipperScreen/all /home/mks/mainsail/all
-
-## Check why these files are in the eryone repo compared to the original repos.
-- [ ] Eryone Scripts /all/ --> Where are they used?
-- [ ] Eryone /KlipperScreen/ --> Check
-    - /KlipperScreen/Panels/ - What are they doing?
-        - [ ] calibrate.py
-        - [ ] change_name.py
-        - [ ] chgfilament.py
-    - [ ] /KlipperScreen/ks_includes/zh_TW/KlipperScreen2mo  - Check what is different in the Eryone version
-    - [ ] /KlipperScreen/screen.py  - Check what is different in the Eryone version
-- Eryone /klipper/ --> Check
-    - /klipper/klippy/extras/
-        - [ ] as5600.py
-        - [x] at24c_eeprom.py
-        - [x] gcode_shell_command.py
-        - [ ] pressure_sensor.py
-    - [ ] /klipper/lib/rp2040/
-    - [ ] /klipper/lib/rp2040_flash/
-    - [ ] /klipper/src/rp2040/rp2040_link,lds.S --> ??? new: rpxxxx.lds.s
-    - [ ] /klipper/src/pressure_sensor.c --> deleated on 20250825 (by eryone)
-- [ ] Eryone /moonraker/mooonrkaer/components/timelpase.py redirect to /moonrkaer-timelapse/components/timelpase.py --> Why?
-- [x] Eryone /moonraker-timelapse/ --> What was changed by eryone?
-    - MKS path hardwired & sudo makerspace added
-    - timelapse.py: MKS path hardwired 
-
-## Eryone farm3d
-- /scripts/install_software.sh
-    - [ ] "pip3 install" commands used. Code is from /eryone-scripts-all/install_lib.sh. Not working on Debuan systems. See next install.sh topic.
-- install.sh
-    - [ ] "pip3 install" command used. \
-        Debian/Ubuntu-like system that implements PEP 668. Which marks the system Python as “externally managed,” so "pip3 install" to the system site-packages is blocked to avoid breaking OS packages.
-    - [x] --> changed strings in farm3d.service that the replacement works
-    - [x] --> Added farm3d.service installation
-- [x] update.sh: Executes git fetch. but there is no /.git/config. Calls mq.py --> only works when orioginaly cloned from github.com/eryone/farm3d repo. --> use x400-software-pack/scripts/update.sh instead
-- run.sh
-    - Calls: ./mq.py
-    - Calls: /eryone-scripts-all/monitor.sh which is doing nothing
-    - [x] Uses hardcoded paths (/home/mks/") and "~"    --> changed to $HOME
-    - [x] Uses "echo makerbase | sudo -S service crowsnest restart"  --> removed "echo makerbase" part
- - mq.py - is the MQTT Handler which takes care of the communication between klipper and farm3d server
-    - Loads: ./klipper_config.cfg
- - klipper_config.cfg   --> Loaded in mq.py
- - farm3d.service   --> calls run.sh
- - get-pip.py - Standard python installer for pip   --> Not used
 
 ## Research on the following tools, if they should be part of x400-software-pack:
 - [ ] SimplyPrint: https://simplyprint.io
 - [ ] PrettyGCode: https://github.com/Kragrathea/pgcode
 
 
+## Software modifications
+- [ ] printer.cfg - modified
+- [ ] Create INDX.cfg: https://github.com/BondtechAB/INDX#firmware-configuration
+- [ ] installation script
+    - [ ] Incorporate: https://github.com/BondtechAB/INDX#firmware-configuration
+    - [ ] Incorporate: https://github.com/BondtechAB/INDX/tree/main/macros
+    - [ ] Incorporate: https://github.com/BondtechAB/indx_klipper
+- [ ] update script
+    - [ ] Incorporate: https://github.com/BondtechAB/INDX#firmware-configuration
+    - [ ] Incorporate: https://github.com/BondtechAB/INDX/tree/main/macros
+    - [ ] Incorporate: https://github.com/BondtechAB/indx_klipper
+- [ ] CFG fiels cleand
+
 ## Hardware modifications
 - [ ] Bondtech INDX
-    - [ ] Bondtech INDX Toolehad
+    - [ ] Bondtech INDX Toolhead
     - [ ] Bondtech electronic board
     - [ ] Bondtech INDX Eddy Current Scanner
     - [ ] Bondtech INDX Tool Dock
     - [ ] x-axis endstop switch
     - [ ] x-carriage
+        - [x] CAD model
     - [ ] 1515 aluminum bar
     - [ ] aluminium bar mount
-- [ ] Filament
+        - [x] CAD model
+- [ ] Cable & Tube routing
     - [ ] Cable routing
     - [ ] Filament tube routing
 - [ ] Enclosure
