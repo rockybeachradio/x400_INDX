@@ -5,7 +5,7 @@ set -euo pipefail
 # File: mcu_firmware_update_all.sh
 # Author: Andreas
 # Date: 20251125
-# Purpose: Calls the muc_update.sh for each MCU.
+# Purpose: Calls the muc_firmware_update.sh for each MCU.
 #
 ################################################################################################
 echo "This is $(basename "$0")"
