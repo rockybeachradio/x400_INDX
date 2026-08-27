@@ -4,9 +4,9 @@ set -euo pipefail
 ################################################################################################
 # File: update.sh
 # Author: Andreas
-# Date: 20250925
-# Purpose:  Update the x400-software-pack
-#           Calls the: download_x400-software-pack.sh, copy_config.sh, mcu_update.sh
+# Date: 20260827
+# Purpose:  Update the x400_INDX software
+#           Calls the: git_clone_pull.sh, copy_config.sh, mcu_firmware_update_all.sh
 #
 ################################################################################################
 echo "This is $(basename "$0")"
@@ -41,13 +41,13 @@ echo " "
 ################################################################################################
 # Check for new x400-software-pack version on GitHub repo
 ################################################################################################
-echo "ℹ️  Start update check & download script (download_x400-software-pack) ..."
+echo "ℹ️  Start update check & download script (git_clone_pull.sh) ..."
 cd "$REPO_DIR/scripts/"  || echo "❌  Faild: Go to scripts folder"
-"$REPO_DIR/scripts/download_x400-software-pack.sh" || rc=$? || error_exit "❌  Faild: Starting download_x400-software-pack.sh"
+"$REPO_DIR/scripts/git_clone_pull.sh" || rc=$? || error_exit "❌  Faild: Starting git_clone_pull.sh"
 rc=$?       #capture exit code from script above (0 = new version was downloaded from GitHub, 5 = no newer verison on GitHub)
 
 if [[ $rc -ne 0 && $rc -ne 5 ]]; then
-  echo "❌  Stop update. (download_x400-software-pack exit with $rc)"
+  echo "❌  Stop update. (git_clone_pull.sh exit with $rc)"
   exit 1
 fi
 echo " "

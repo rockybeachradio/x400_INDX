@@ -2,11 +2,11 @@
 set -euo pipefail
 
 ################################################################################################
-# File: install_software.sh
+# File: install_software_1.sh
 # Author: Andreas
 # Date: 20250925
 # Purpose: Installs software that is needed by x400-software-pack
-# Called by: install.sh, update.sh
+# Called by: install.sh
 #
 ################################################################################################
 echo "This is $(basename "$0")"

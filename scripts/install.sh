@@ -4,13 +4,14 @@ set -euo pipefail
 ################################################################################################
 # File: install.sh
 # Author: Andreas
-# Date: 20250925
-# Purpose:  Start this to install the x400-software-pack
-#           Calls the: download_x400-software-pack.sh, install_software.sh, copy_config.sh
+# Date: 20260827
+# Purpose:  Start this to install the x400_INDX Software
+#           Calls the: git_clone_pull.sh, install_software_1.sh
 #
 ################################################################################################
 echo "This is $(basename "$0")"
 echo " "
+
 
 ################################################################################################
 # Variables
@@ -20,19 +21,20 @@ rc=""      # Return code  Variable for exit code of a called shell script
 #Resolve repo root (parent of this script), then cd into it
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
-cd "$REPO_DIR" || { echo "❌ x400-software-pack not found: $REPO_DIR"; exit 1; }
+BASE_DIR="$(cd "$REPO_DIR/.." && pwd)"
+cd "$REPO_DIR" || { echo "❌ Local Repository not found: $REPO_DIR"; exit 1; }
 
 
 ################################################################################################
-# Check for new x400-software-pack version on GitHub repo
+# Check for new Repository version on GitHub
 ################################################################################################
-echo "ℹ️  Start update check & download script (download_x400-software-pack) ..."
-cd "$REPO_DIR/scripts/"
-./download_x400-software-pack.sh || rc=$?
+echo "ℹ️  Start update check & download script (git_clone_pull.sh) ..."
+cd "$SCRIPT_DIR"
+./git_clone_pull.sh || rc=$?
 rc=$?       #capture exit code from script above (0 = new version was downloaded from GitHub, 5 = no newer verison on GitHub)
 
 if [[ $rc -ne 0 && $rc -ne 5 ]]; then
-  echo "❌  Stop update. (download_x400-software-pack exit with $rc)"
+  echo "❌  Stop update. (git_clone_pull.sh exit with $rc)"
   exit 1
 fi
 echo " "
@@ -73,7 +75,7 @@ echo "        - 4) Klipper-Backup   (optional: Backup on boot, Cron, Backup on f
 echo "        - 6) Obico for Klipper   (optional)"
 echo "If you decide to install KlipperScreen, be aware that it may cause high-cpu load and therefor timeout errors druing printing. Reason: No GPU hardware acceleration."
 echo " "
-echo "After installing the software in KIAUH, launch the second part of the installation process: ~/x400-software-pack/scripts/install_part2.sh"
+echo "After installing the software in KIAUH, launch the second part of the installation process: ~/${REPO_DIR}/scripts/install_part2.sh"
 echo " "
 echo " "
 

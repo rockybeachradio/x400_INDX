@@ -4,10 +4,10 @@ set -euo pipefail
 ################################################################################################
 # File: copy_configs.sh
 # Author: Andreas
-# Date: 20250925
+# Date: 20260827
 # Purpose: Copies all Confgiruations file to the locations so the printer software can use it
-#          Installing Eryone farm3d.
-# Called by: install.sh, update.sh
+#
+# Called by: install_part2.sh, update.sh
 #
 ################################################################################################
 
@@ -33,20 +33,28 @@ set -euo pipefail
 echo "This is $(basename "$0")"
 echo " "
 
+
 ################################################################################################
 # Variables
 ################################################################################################
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+BASE_DIR="$(cd "$REPO_DIR/.." && pwd)"
+
 source_base=$REPO_DIR
 config_source="$REPO_DIR""/configurations"
 
 config_destination="$HOME""/printer_data/config"
 INSTALL=false
 
+INDX_MACRO_SOURCE_DIR="$BASE_DIR/INDX/macros"
+INDX_MACRO_DESTIONATION_DIR="$config_destination/indx_macros"
+
 github_username=""
 github_repository=""
 github_token=""
+
+
 
 ################################################################################################
 # Include helper scripts
@@ -194,14 +202,18 @@ echo "Copy configurations ..."
 files=(
     printer.cfg
     motor_driver_v1_2.cfg
-    EECAN.cfg
+
+    indx_settings.cfg
+    
     calibration.cfg
     filament_mgmt.cfg
     KAMP_Settings.cfg
     x400.cfg
     printjob_mgmt.cfg
     nozzle_cleaning.cfg
+
     eryone_stuff.cfg
+    
     chamber_temp_mgmt.cfg
     Andreas_extensions.cfg
     variables.cfg
@@ -241,6 +253,36 @@ echo " "
 #echo "ℹ️  Copy config files to spezial folders ..."
 #cp "$config_source""/mainsail-client.cfg" "$HOME""/mainsail-config/client.cfg"  || echo "❌  Faild copying mainsail-client.cfg"            # The newest version of the client.cfg file created by Mainsail-crew shall be used. Not the orlder eryone version.
 #cp "$config_source""/timelapse.cfg" "$HOME""/moonraker-timelapse/klipper_macro/timelapse.cfg"   || echo "❌  Faild copying timelapse.cfg"   # The newest version of the timelapse.cfg file created by Mainsail-crew shall be used. Not the orlder eryone version.
+
+
+################################################################################################
+# Copy INDX macros
+################################################################################################
+#echo "ℹ️  Copy INDX Macros ..."
+
+echo "ℹ️  Preparing configuration folder ..."
+rm -rf "$INDX_MACRO_DESTIONATION_DIR""/*"  || echo "❌  Faild deleating folder content of ""$INDX_MACRO_SDESTIONATION_DIR"
+
+echo "Copy macros ..."
+files=(
+    indx-cal.cfg
+    indy-tc-macros.cfg
+    indx.cfg
+    )
+
+# Copy to printer_data/config/
+for f in "${files[@]}"; do
+    cp "$INDX_MACRO_SOURCE_DIR""/""$f" "$INDX_MACRO_DESTIONATION_DIR/"  || echo "❌  Faild copying ""$f"
+done
+echo " "
+
+
+
+
+
+
+
+
 
 
 ################################################################################################
@@ -329,8 +371,8 @@ if [[ "$answer" =~ ^[Yy]$ ]]; then
 
   echo "ℹ️  Setup CAN Bus ..."
   # Copy files
-  sudo cp "$source_base""/can-bus-configurtation/10-can.link.conf" "/etc/systemd/network/10-can.link" || echo "❌  Faild copying 10-can.link"
-  sudo cp "$source_base""/can-bus-configurtation/20-can0.network.conf" "/etc/systemd/network/20-can0.network" || echo "❌  Faild copying 0-can0.network"
+  sudo cp "$source_base""/can-bus-configuration/10-can.link.conf" "/etc/systemd/network/10-can.link" || echo "❌  Faild copying 10-can.link"
+  sudo cp "$source_base""/can-bus-configuration/20-can0.network.conf" "/etc/systemd/network/20-can0.network" || echo "❌  Faild copying 0-can0.network"
 
   # Start commands
   sudo systemctl enable systemd-networkd || echo "❌  Faild: systemctl enable systemd-networkd"
@@ -340,7 +382,7 @@ if [[ "$answer" =~ ^[Yy]$ ]]; then
   ##############################################################
   echo "ℹ️  Reducing systemd-networkd wait-online time for faster start ..."
   sudo mkdir -p /etc/systemd/system/systemd-networkd-wait-online.service.d || echo "❌  Faild: mkdir /etc/systemd/system/systemd-networkd-wait-online.service.d"
-  sudo cp "$source_base""/can-bus-configurtation/systemd-networkd-wait-online-service_override.conf" "/etc/systemd/system/systemd-networkd-wait-online.service.d/override.conf" || echo "❌  Faild copying systemd-networkd-wait-online-service_override.conf"
+  sudo cp "$source_base""/can-bus-configuration/systemd-networkd-wait-online-service_override.conf" "/etc/systemd/system/systemd-networkd-wait-online.service.d/override.conf" || echo "❌  Faild copying systemd-networkd-wait-online-service_override.conf"
   sudo systemctl daemon-reload || echo "❌  Faild: systemctl daemon-reload"
 
 else
@@ -430,42 +472,6 @@ fi
 echo " "
 
 
-################################################################################################
-# farm3d - Copy and call .install
-#     source: eryone-scripts-all/install_lib.sh
-################################################################################################
-#read -p "❓Install/Update Eryone farm3d - software? [y/N]: " answer
-#answer=${answer:-N}     # default to "N" if empty
-answer=$(ask_yn "Install/Update Eryone farm3d software?" false)
-if [[ "$answer" =~ ^[Yy]$ ]]; then
-
-  echo "ℹ️  Copy Eryone farm3d ..."
-  if [[ -d "$HOME""/farm3d/" ]]; then
-      rm -rf "$HOME/farm3d"
-  fi
-  cp -r "$source_base""/eryone-farm3d/" "$HOME""/farm3d/"  || echo "❌  Faild copying farm3d folder"
-  #chmod 777 "$HOME""/farm3d" || echo "❌  Faild chmod on farm3d folder"    # Eryone original: 777
-  chmod +x "$HOME""/farm3d" || echo "❌  Faild chmod on farm3d folder"
-  if cd "$HOME""/farm3d/"; then
-      echo "ℹ️  Starting Eryone farm3d installer ..."
-      ./install.sh  || echo "❌  Faild starting the /farm3d/install.sh. Or the script aborted due to an error."      # Calling the farm3d installer
-  else
-      echo "❌  Faild going into ""$source_base""/farm3d folder"
-  fi
-
-  #pip3 install opencv-python || echo "! Faild pip3 install opencv-python"        # This is installed by /x400-software-pack/scripts/install_software.sh
-  #pip3 install qrcode[pil] || echo "! Faild pip3 install qrcode"                 # This is installed by /x400-software-pack/scripts/install_software.sh
-else
-  echo "... no copying."
-fi # Auskommentierung
-echo " "
-
-
-################################################################################################
-# Eryone script - Copy
-################################################################################################
-#echo "ℹ️  Create symling to Eryone scripts ..."
-#ln -sfn "$source_base""/eryone-scripts-all/"   "$HOME""/mainsail/all/" || echo "! Faild setting symlink to eryone-all script in mainsail folder"
 
 
 ################################################################################################
@@ -482,6 +488,7 @@ echo " "
 #    echo "You chose NO"
 #    echo "Make sure you changed the hardware connections on the SKIRP board !!!"
 #fi
+
 
 ################################################################################################
 # restart klipper
