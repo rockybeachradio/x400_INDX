@@ -24,17 +24,18 @@ It is based on https://github.com/rockybeachradio/x400-software-pack \
 
 
 ## Software modifications
-- [ ] printer.cfg - modified
-- [ ] Create INDX.cfg: https://github.com/BondtechAB/INDX#firmware-configuration
+- [ ] printer.cfg
+    - [x] modified
+    - [ ] tested 
+- [x] Create INDX.cfg: https://github.com/BondtechAB/INDX#firmware-configuration
 - [ ] installation script
-    - [ ] Incorporate: https://github.com/BondtechAB/INDX#firmware-configuration
-    - [ ] Incorporate: https://github.com/BondtechAB/INDX/tree/main/macros
-    - [ ] Incorporate: https://github.com/BondtechAB/indx_klipper
+    - [x] modified
+    - [ ] tested 
 - [ ] update script
-    - [ ] Incorporate: https://github.com/BondtechAB/INDX#firmware-configuration
-    - [ ] Incorporate: https://github.com/BondtechAB/INDX/tree/main/macros
-    - [ ] Incorporate: https://github.com/BondtechAB/indx_klipper
-- [ ] CFG fiels cleand
+    - [x] modified
+    - [ ] tested 
+- [ ] Remove all Eryone-Toolhead related code
+- [ ] Add/Adapt code for INDX
 
 ## Hardware modifications
 - [ ] Bondtech INDX
@@ -51,13 +52,18 @@ It is based on https://github.com/rockybeachradio/x400-software-pack \
 - [ ] Cable & Tube routing
     - [ ] Cable routing
     - [ ] Filament tube routing
+
 - [ ] Enclosure
+
 - [ ] Material Storage
     - [ ] Enclosure
     - [ ] Filament storage
     - [ ] Roshal Dehumidifier
-- [ ] Automatic feeder: Drom Spool to passive Tool
+
+- [ ] Automatic feeder: From Spool to passive Tool
+
 - [ ] Nozzle camera: Check Nozzle alignment
+      https://github.com/nic335/Axiscope
 
 - [ ] Second temperature sensor for chamber exhaust fan / chamber heater
 - [ ] Poop bin (my be combined with Nozzle Cleaning Station)
@@ -68,25 +74,27 @@ It is based on https://github.com/rockybeachradio/x400-software-pack \
     - [ ] Constructed
     - [ ] Adapted to actual printer size
     - [ ] Printed and Tested
-- [ ] Electronic bay fan filter
-    - [ ] Constructed
-    - [ ] Adapted to actual printer size
-    - [ ] Printed and Tested
 - [ ] Chamber filtration unit: Coal Filter and HEPA filter (recirculation air)
     - [ ] Constructed
     - [ ] Adapted to actual printer size
     - [ ] Printed and Tested
+
 - [ ] Auxilliary part cooling fan (G-Code M106, M107)
 
+- [ ] Electronic bay fan filter
+    - [ ] Constructed
+    - [ ] Adapted to actual printer size
+    - [ ] Printed and Tested
+
 - [ ] RBG Status LED for printer status indication (Neopicel pin:PC5)
-- [ ] Better Camera
+- [ ] Better chamber Camera
 
 ## Added Features
 - Backup script function
     - [x] Backup as zip to local backup folder
     - [ ] Upload zip to SMB
     - [x] Backup to GitHub
-    - [ ] GitHub: Initial setup local fodler (/printer_backup/files/) in install_software.sh
+    - [ ] GitHub: Initial setup local folder (/printer_backup/files/) in install_software.sh
         --> git_initiate.sh: Test "Git commands" section. 
 - [ ] Temeprature monitoring (what to do when to hot)
 - [ ] Endstoop calibration [endstop_phase]
