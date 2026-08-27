@@ -4,7 +4,7 @@ set -euo pipefail
 ################################################################################################
 # File: install_software_2.sh
 # Author: Andreas
-# Date: 20251013
+# Date: 20260827
 # Purpose: Installs software that is needed by x400-software-pack
 # Called by: install_part2.sh
 #
@@ -432,21 +432,6 @@ if [[ "$answer" =~ ^[Yy]$ ]]; then
 else
     echo "... no installation."
 fi
-
-
-################################################################################################
-# Flash Linux MCU (rpi)
-################################################################################################
-read -p "❓ Install the Linux MCU? [Y/n]: " answer
-answer=${answer:-Y}     # default to "Y" if empty
-if [[ "$answer" =~ ^[Yy]$ ]]; then
-    echo "ℹ️  Calling mcu_firmware_update.sh for linux mcu..."
-    "$SCRIPT_DIR/mcu_firmware_update.sh" -m linux -c "$LINUX_MCU_KLIPPER_FIRMWARE_CONFIG_FILE" || echo "❌  Faild: Starting mcu_firmware_update.sh for Linux MCU"
-else
-    echo "... no installation."
-fi
-echo " "
-
 
 
 

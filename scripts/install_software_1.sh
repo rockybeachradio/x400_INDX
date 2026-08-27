@@ -2,9 +2,9 @@
 set -euo pipefail
 
 ################################################################################################
-# File: install_software_1.sh
+# File: install_software_1s.sh
 # Author: Andreas
-# Date: 20250925
+# Date: 20260827
 # Purpose: Installs software that is needed by x400-software-pack
 # Called by: install.sh
 #

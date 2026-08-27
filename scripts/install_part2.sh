@@ -71,7 +71,7 @@ echo " "
 # Getting Bondtech Repositories
 ################################################################################################
 
-# Download Repository https://github.com/BondtechAB/INDX/macros
+# Download Repository https://github.com/BondtechAB/INDX/
 set +e
 "$CLONE_PULL_SCRIPT" -d "$BASE_DIR/INDX" -r "https://github.com/BondtechAB/INDX.git"
 rc=$?
