@@ -20,9 +20,10 @@ echo " "
 #Resolve repo root (parent of this script), then cd into it
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
-BASE_DIR="$(cd "$REPO_DIR/.." && pwd)"
 
 CLONE_PULL_SCRIPT="$REPO_DIR/scripts/git_clone_pull.sh"
+
+KLIPPER_DIR="${HOME}/klipper"
 
 
 ################################################################################################
@@ -58,7 +59,6 @@ fi
 
 
 
-
 ################################################################################################
 # Install required software part 2
 ################################################################################################
@@ -68,37 +68,22 @@ echo " "
 
 
 ################################################################################################
-# Getting Bondtech Repositories
+# Getting / Updating Bondtech`s indx & indx_klipper software / repos
 ################################################################################################
+echo "ℹ️  Start software installer (install_software_indx.sh) ..."
+"$REPO_DIR/scripts/install_software_indx.sh"
+echo " "
 
-# Download Repository https://github.com/BondtechAB/INDX/
-set +e
-"$CLONE_PULL_SCRIPT" -d "$BASE_DIR/INDX" -r "https://github.com/BondtechAB/INDX.git"
-rc=$?
-set -e
-case "$rc" in
-  0|5) ;;
-  *) echo "❌ clone/pull failed: $BASE_DIR/INDX (exit $rc)" >&2; exit "$rc" ;;
-esac
-
-
-# download Repository https://github.com/BondtechAB/indx_klipper
-set +e
-"$CLONE_PULL_SCRIPT" -d "$BASE_DIR/indx_klipper" -r "https://github.com/BondtechAB/indx_klipper.git"
-rc=$?
-set -e
-case "$rc" in
-  0|5) ;;
-  *) echo "❌ clone/pull failed: $BASE_DIR/indx_klipper (exit $rc)" >&2; exit "$rc" ;;
-esac
-
-# call indx_klipper/install.sh
-if [[ -x "$BASE_DIR/indx_klipper/install.sh" ]]; then
-  echo "ℹ️  Running indx_klipper/install.sh ..."
-  "$BASE_DIR/INDX/install.sh"
+read -p "❓ Install/Update Smart Tollhead firmware? [Y/n]: " answer
+answer=${answer:-Y}     # default to "Y" if empty
+if [[ "$answer" =~ ^[Yy]$ ]]; then
+  echo "ℹ️  Start Smart Tollhead firmware update (indx_smarttoolhead_firmware_update.sh) ..."
+  "$REPO_DIR/scripts/indx_smarttoolhead_firmware_update.sh"
+  echo " "
 else
-  echo "❌ No $BASE_DIR/indx_klipper/install.sh — skip"
+  echo "... no INDX firmware udpate"
 fi
+echo " "
 
 
 ################################################################################################

@@ -24,6 +24,8 @@ REPO_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 cd "$REPO_DIR" || { echo "❌ x400-software-pack not found: $REPO_DIR"; exit 1; }
 
 
+
+
 ################################################################################################
 # Update Linux
 ################################################################################################
@@ -39,7 +41,7 @@ echo " "
 
 
 ################################################################################################
-# Check for new x400-software-pack version on GitHub repo
+# Check for new Repository version on GitHub
 ################################################################################################
 echo "ℹ️  Start update check & download script (git_clone_pull.sh) ..."
 cd "$REPO_DIR/scripts/"  || echo "❌  Faild: Go to scripts folder"
@@ -49,6 +51,25 @@ rc=$?       #capture exit code from script above (0 = new version was downloaded
 if [[ $rc -ne 0 && $rc -ne 5 ]]; then
   echo "❌  Stop update. (git_clone_pull.sh exit with $rc)"
   exit 1
+fi
+echo " "
+
+
+################################################################################################
+# Getting / Updating Bondtech`s indx & indx_klipper software / repos
+################################################################################################
+echo "ℹ️  Start software installer (install_software_indx.sh) ..."
+"$REPO_DIR/scripts/install_software_indx.sh"
+echo " "
+
+read -p "❓ Install/Update Smart Tollhead firmware? [Y/n]: " answer
+answer=${answer:-Y}     # default to "Y" if empty
+if [[ "$answer" =~ ^[Yy]$ ]]; then
+  echo "ℹ️  Start Smart Tollhead firmware update (indx_smarttoolhead_firmware_update.sh) ..."
+  "$REPO_DIR/scripts/indx_smarttoolhead_firmware_update.sh"
+  echo " "
+else
+  echo "... no INDX firmware udpate"
 fi
 echo " "
 

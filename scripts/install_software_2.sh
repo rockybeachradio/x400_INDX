@@ -25,7 +25,7 @@ config_source="$REPO_DIR""/configurations"
     TARGET_DIR=""
     REPO_URL=""
 
-# KLipper-Backup
+# Klipper-Backup
     klipperbackup_dir=""
     klipperbackup_file=""
 
