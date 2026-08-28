@@ -250,9 +250,14 @@ echo " "
 ################################################################################################
 # Configuration files - Copy fiels to spezial destinations
 ################################################################################################
-#echo "ℹ️  Copy config files to spezial folders ..."
-#cp "$config_source""/mainsail-client.cfg" "$HOME""/mainsail-config/client.cfg"  || echo "❌  Faild copying mainsail-client.cfg"            # The newest version of the client.cfg file created by Mainsail-crew shall be used. Not the orlder eryone version.
-#cp "$config_source""/timelapse.cfg" "$HOME""/moonraker-timelapse/klipper_macro/timelapse.cfg"   || echo "❌  Faild copying timelapse.cfg"   # The newest version of the timelapse.cfg file created by Mainsail-crew shall be used. Not the orlder eryone version.
+# echo "ℹ️  Copy config files to spezial folders ..."
+# cp "$config_source""/mainsail-client.cfg" "$HOME""/mainsail-config/client.cfg"  || echo "❌  Faild copying mainsail-client.cfg"
+#   The newest version of the client.cfg file created by Mainsail-crew shall be used.
+#   This will be created when installing Mainsail via KIAUH.
+
+#cp "$config_source""/timelapse.cfg" "$HOME""/moonraker-timelapse/klipper_macro/timelapse.cfg"   || echo "❌  Faild copying timelapse.cfg"
+#   The newest version of the timelapse.cfg file created by Mainsail-crew shall be used.
+#   This will be created when installing Mainsail via KIAUH.
 
 
 ################################################################################################
@@ -318,6 +323,7 @@ echo " "
 # Configuration files - Create Symlinks
 ################################################################################################
 echo "ℹ️  Creating Symlinks ..."
+#symlink is created in eg. "config_destination""/mainsail.cfg"
 ln -sfn "$HOME""/mainsail-config/mainsail.cfg"                      "$config_destination""/mainsail.cfg"  || echo "❌  Faild setting symlink to mainsail.cfg"
 ln -sfn "$HOME""/moonraker-timelapse/klipper_macro/timelapse.cfg"   "$config_destination""/timelapse.cfg" || echo "❌  Faild setting symlink to timelapse.cfg"
 ln -sfn "$HOME""/Klipper-Adaptive-Meshing-Purging/Configuration/"   "$config_destination""/KAMP" || echo "❌  Faild setting symlink to KAMP configuration folder"
