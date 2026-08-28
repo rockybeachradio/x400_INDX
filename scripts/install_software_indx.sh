@@ -31,7 +31,6 @@ KLIPPER_DIR="${HOME}/klipper"
 ################################################################################################
 required_scripts=(
   "$CLONE_PULL_SCRIPT"
-  "$REPO_DIR/scripts/install_software_indx.sh"
 )
 
 missing=0
@@ -76,7 +75,7 @@ esac
 # Install indx_klipper
 if [[ -x "${HOME}/indx_klipper/install.sh" ]]; then
   echo "ℹ️  Running indx_klipper/install.sh ..."
-  "${HOME}/INDX/install.sh" "${KLIPPER_DIR}"
+  "${HOME}/indx_klipper/install.sh" "${KLIPPER_DIR}"
 else
   echo "❌ No ${HOME}/indx_klipper/install.sh — skip"
 fi

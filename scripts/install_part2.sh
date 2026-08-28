@@ -32,6 +32,8 @@ KLIPPER_DIR="${HOME}/klipper"
 required_scripts=(
   "$CLONE_PULL_SCRIPT"
   "$REPO_DIR/scripts/install_software_2.sh"
+  "$REPO_DIR/scripts/install_software_indx.sh"
+  "$REPO_DIR/scripts/indx_smarttoolhead_firmware_update.sh"
   "$REPO_DIR/scripts/copy_configs.sh"
   "$REPO_DIR/scripts/mcu_firmware_update_all.sh"
 )
