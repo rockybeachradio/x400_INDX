@@ -265,14 +265,13 @@ echo " "
 ################################################################################################
 #echo "ℹ️  Copy INDX Macros ..."
 
-echo "ℹ️  Preparing configuration folder ..."
+echo "ℹ️  Preparing indx_macro folder ..."
 rm -rf "$INDX_MACRO_DESTIONATION_DIR""/*"  || echo "❌  Faild deleating folder content of ""$INDX_MACRO_SDESTIONATION_DIR"
 
-echo "Copy macros ..."
+echo "Copy indx macros --> /indx_macros/ ..."
 files=(
     indx-cal.cfg
-    indy-tc-macros.cfg
-    indx.cfg
+    indx-tc-macros.cfg
     )
 
 # Copy to printer_data/config/
@@ -281,6 +280,9 @@ for f in "${files[@]}"; do
 done
 echo " "
 
+
+echo "Copy indx_macros/indx.cfg ..."
+cp "$config_source""/indx_macros/indx.cfg" "$INDX_MACRO_DESTIONATION_DIR"   || echo "❌  Faild copying canuid.cfg"
 
 
 
