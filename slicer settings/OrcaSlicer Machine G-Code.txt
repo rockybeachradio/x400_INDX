@@ -1,4 +1,13 @@
 #####################################################################################
+;::: First Setup:::
+# See calibration_initial.cfg
+    # OrcaSlicer - Printer Settings (Example Values:)
+    #   Bed Shape Size: 400 x 400
+    #   Origin of printbed (X) value: 20
+    #   Origin of printbed (Y) value: 30
+
+
+#####################################################################################
 ;::: Machine start G-code - (by andreas):::
 G90     ; Use absolute coordinates
 M83     ; Extruder relative mode
@@ -43,7 +52,8 @@ G92 E0      ; Set position - Set current position of the extruder to 0
 
 #####################################################################################
 ;::: Change filament G-code ::: 
-; empty
+CHANGE_TOOL TOOL={next_extruder} TEMP={new_filament_temp}
+M400
 
 #####################################################################################
 ;::: Change extrusion role G-code ::: 
